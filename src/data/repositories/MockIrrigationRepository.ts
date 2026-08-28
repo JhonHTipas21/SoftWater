@@ -14,7 +14,7 @@ export class MockIrrigationRepository implements IIrrigationRepository {
 
   private history: HistoricalData[] = [];
   private events: IrrigationEvent[] = [];
-  private simulationInterval: NodeJS.Timeout | null = null;
+  private simulationInterval: ReturnType<typeof setInterval> | null = null;
   private wateringDurationRemaining = 0;
 
   constructor() {

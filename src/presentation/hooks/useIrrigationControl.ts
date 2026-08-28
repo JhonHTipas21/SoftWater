@@ -147,7 +147,7 @@ export const useIrrigationControl = (
     toggleAutoMode: (isAuto: boolean) => toggleAutoModeMutation.mutate(isAuto),
     startIrrigation: (durationSeconds: number) => startIrrigationMutation.mutate(durationSeconds),
     stopIrrigation: () => stopIrrigationMutation.mutate(),
-    setThreshold: (threshold: number) => setThresholdMutation.mutate(threshold),
+    setThreshold: (newThreshold: number) => setThresholdMutation.mutate(newThreshold),
 
     // Estado individual de carga de las mutaciones
     isTogglingAutoMode: toggleAutoModeMutation.isPending,

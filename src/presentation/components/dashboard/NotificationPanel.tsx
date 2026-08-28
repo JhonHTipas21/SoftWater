@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Pressable, ScrollView } from 'react-native';
 import { theme } from '../../theme/theme';
-import { NotificationAlert, useUIStore } from '../../state/useUIStore';
+import { NotificationAlert } from '../../state/useUIStore';
 
 interface NotificationPanelProps {
   notifications: NotificationAlert[];
