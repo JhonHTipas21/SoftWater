@@ -1,4 +1,4 @@
-#Softwater
+# Softwater
 
 **Softwater** is a premium real-time monitoring and control mobile application for a smart drip irrigation IoT system. Designed to work hand in hand with **ESP32** microcontrollers, capacitive soil moisture sensors, relays and water pumps.
 
