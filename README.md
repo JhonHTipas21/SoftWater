@@ -1,4 +1,4 @@
-# Softwater 🍃💧
+# Softwater 
 
 **Softwater** es una aplicación móvil premium de monitoreo y control en tiempo real para un sistema IoT de riego por goteo inteligente. Diseñada para trabajar de la mano con microcontroladores **ESP32**, sensores capacitivos de humedad de suelo, relés y bombas de agua.
 
@@ -6,7 +6,7 @@ La aplicación permite a los usuarios supervisar la salud de sus cultivos y auto
 
 ---
 
-## 🚀 Características Principales
+##  Características Principales
 
 1. **Dashboard en Tiempo Real:** Visualización radial dinámica del porcentaje de humedad del suelo y la temperatura ambiente del cultivo.
 2. **Control Inteligente de Riego:**
@@ -20,7 +20,7 @@ La aplicación permite a los usuarios supervisar la salud de sus cultivos y auto
 
 ---
 
-## 🛠️ Stack Tecnológico
+##  Stack Tecnológico
 
 * **Core Framework:** React Native con TypeScript estricto.
 * **Manejo de Estado del Servidor:** [TanStack React Query v5](https://tanstack.com/query) para el control asíncrono de telemetría e invalidación/caché reactiva.
@@ -30,7 +30,7 @@ La aplicación permite a los usuarios supervisar la salud de sus cultivos y auto
 
 ---
 
-## 🏛️ Arquitectura de Software (Clean Architecture)
+##  Arquitectura de Software (Clean Architecture)
 
 El proyecto está diseñado bajo los principios **SOLID** y el patrón **Clean Architecture** para garantizar escalabilidad, mantenibilidad e independencia de hardware:
 
@@ -63,7 +63,7 @@ La aplicación incluye un simulador activo (`MockIrrigationRepository`) que repr
 
 ---
 
-## 📦 Instalación y Arranque (iOS/Simulador)
+## Instalación y Arranque (iOS/Simulador)
 
 ### Requisitos Previos
 * Node.js (v18+)
