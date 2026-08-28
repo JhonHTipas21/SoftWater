@@ -1,95 +1,95 @@
-# Softwater 
+#Softwater
 
-**Softwater** es una aplicación móvil premium de monitoreo y control en tiempo real para un sistema IoT de riego por goteo inteligente. Diseñada para trabajar de la mano con microcontroladores **ESP32**, sensores capacitivos de humedad de suelo, relés y bombas de agua.
+**Softwater** is a premium real-time monitoring and control mobile application for a smart drip irrigation IoT system. Designed to work hand in hand with **ESP32** microcontrollers, capacitive soil moisture sensors, relays and water pumps.
 
-La aplicación permite a los usuarios supervisar la salud de sus cultivos y automatizar el suministro de agua mediante la configuración de umbrales inteligentes.
-
----
-
-##  Características Principales
-
-1. **Dashboard en Tiempo Real:** Visualización radial dinámica del porcentaje de humedad del suelo y la temperatura ambiente del cultivo.
-2. **Control Inteligente de Riego:**
-   * **Modo Automático:** El ESP32 activa y detiene el riego de manera autónoma basándose en umbrales de humedad.
-   * **Modo Manual:** El usuario tiene control directo para activar ("Regar Ahora") o detener el riego con un solo toque.
-3. **Gestión de Umbrales:** Ajuste del porcentaje mínimo de humedad que dispara el riego automático directamente desde la UI de la app.
-4. **Historial y Bitácora de Eventos:**
-   * Gráfica visualizada nativamente que muestra las variaciones recientes de humedad del suelo con una línea guía de nivel crítico.
-   * Historial detallado de los últimos eventos de riego (hora de inicio, tipo de activación y duración exacta).
-5. **Alertas en Tiempo Real:** Bandeja de notificaciones integrada para registrar alertas de sequedad crítica del suelo, fallos en la bomba e inicio de riegos automáticos.
+The app allows users to monitor the health of their crops and automate water delivery by setting smart thresholds.
 
 ---
 
-##  Stack Tecnológico
+## Main Features
 
-* **Core Framework:** React Native con TypeScript estricto.
-* **Manejo de Estado del Servidor:** [TanStack React Query v5](https://tanstack.com/query) para el control asíncrono de telemetría e invalidación/caché reactiva.
-* **Manejo de Estado Global (UI):** [Zustand](https://github.com/pmndrs/zustand) para la cola de alertas y notificaciones locales.
-* **Navegación:** React Navigation v6.
-* **Diseño y Estilos:** Sistema de diseño estructurado mediante `StyleSheet` modular en modo oscuro premium, implementando sombras y micro-animaciones nativas de fluidos de agua.
+1. **Real Time Dashboard:** Dynamic radial display of the percentage of soil moisture and the ambient temperature of the crop.
+2. **Smart Irrigation Control:** 
+* **Automatic Mode:** The ESP32 activates and stops irrigation autonomously based on humidity thresholds. 
+* **Manual Mode:** User has direct control to activate ("Water Now") or stop watering with a single touch.
+3. **Threshold Management:** Adjustment of the minimum humidity percentage that triggers automatic irrigation directly from the app's UI.
+4. **History and Event Log:** 
+* Natively displayed graph showing recent soil moisture variations with a critical level guide line. 
+* Detailed history of the last irrigation events (start time, activation type and exact duration).
+5. **Real Time Alerts:** Integrated notification tray to record alerts for critical soil dryness, pump failures and start of automatic irrigation.
 
 ---
 
-##  Arquitectura de Software (Clean Architecture)
+## Technology Stack
 
-El proyecto está diseñado bajo los principios **SOLID** y el patrón **Clean Architecture** para garantizar escalabilidad, mantenibilidad e independencia de hardware:
+* **Core Framework:** React Native with strict TypeScript.
+* **Server State Management:** [TanStack React Query v5](https://tanstack.com/query) for asynchronous telemetry control and reactive cache/invalidation.
+* **Global State Management (UI):** [Zustand](https://github.com/pmndrs/zustand) for the local alert and notification queue.
+* **Navigation:** React Navigation v6.
+* **Design and Styles:** Structured design system using modular `StyleSheet` in premium dark mode, implementing shadows and native micro-animations of water fluids.
+
+---
+
+## Software Architecture (Clean Architecture)
+
+The project is designed under the **SOLID** principles and the **Clean Architecture** pattern to guarantee scalability, maintainability and hardware independence:
 
 ```
 src/
-├── domain/            # Capa del Dominio (Lógica de negocio pura, sin dependencias de React)
-│   ├── entities/      # Modelos de datos del negocio (SensorData, IrrigationStatus)
-│   └── repositories/  # Interfaces y contratos abstractos de acceso a datos
+├── domain/ # Domain Layer (Pure business logic, no React dependencies)
+│ ├── entities/ # Business data models (SensorData, IrrigationStatus)
+│ └── repositories/ # Abstract data access interfaces and contracts
 │
-├── data/              # Capa de Datos (Integración externa e infraestructura)
-│   └── repositories/  # Implementaciones concretas de acceso a APIs o Mocks locales
+├── data/ # Data Layer (External integration and infrastructure)
+│ └── repositories/ # Specific implementations of access to local APIs or Mocks
 │
-└── presentation/      # Capa de Presentación (Interfaz de usuario y estado)
-    ├── components/    # Dumb components (UI pura: circular gauges, steppers de umbral, gráficas)
-    ├── hooks/         # ViewModels (useIrrigationControl conecta la UI con el Dominio)
-    └── state/         # Almacenamiento Zustand (notificaciones locales)
+└── presentation/ # Presentation Layer (User Interface and State) 
+├── components/ # Dumb components (pure UI: circular gauges, threshold steppers, graphs) 
+├── hooks/ # ViewModels (useIrrigationControl connects the UI to the Domain) 
+└── state/ # Zustand Storage (local notifications)
 ```
 
-### Inversión de Dependencias (DIP)
-El ViewModel (`useIrrigationControl`) consume la interfaz abstracta `IIrrigationRepository` en lugar de una clase concreta. Esto permite intercalar de forma transparente el **`MockIrrigationRepository`** (usado para probar la app sin hardware conectado) con el **`APIIrrigationRepository`** (de producción) sin alterar la interfaz de usuario.
+### Dependency Inversion (DIP)
+The ViewModel (`useIrrigationControl`) consumes the abstract interface `IIrrigationRepository` instead of a concrete class. This allows the **`MockIrrigationRepository`** (used to test the app without hardware attached) to be transparently interleaved with the **`APIIrrigationRepository`** (production) without altering the user interface.
 
 ---
 
-## ⚡ Simulación IoT Integrada (Para Pruebas)
+## ⚡ Integrated IoT Simulation (For Testing)
 
-La aplicación incluye un simulador activo (`MockIrrigationRepository`) que reproduce el comportamiento de un cultivo real:
-* Si el riego está **apagado**, la humedad del suelo cae lentamente (`-0.4%` a `-0.8%` cada 3 segundos).
-* Si el riego está **activo**, la humedad sube rápidamente simulando la absorción del agua (`+4%` a `+6%` cada 3 segundos).
-* Dispara eventos de notificaciones automáticas y registros en la bitácora cuando se cruza el umbral crítico configurado.
+The application includes an active simulator (`MockIrrigationRepository`) that reproduces the behavior of a real crop:
+* If irrigation is **off**, soil moisture drops slowly (`-0.4%` to `-0.8%` every 3 seconds).
+* If irrigation is **active**, humidity rises rapidly simulating water absorption (`+4%` to `+6%` every 3 seconds).
+* Triggers automatic notification events and log records when the configured critical threshold is crossed.
 
 ---
 
-## Instalación y Arranque (iOS/Simulador)
+## Installation and Boot (iOS/Simulator)
 
-### Requisitos Previos
+### Prerequisites
 * Node.js (v18+)
-* Xcode (con simuladores instalados)
-* CocoaPods (`brew install cocoapods` o `sudo gem install cocoapods`)
+* Xcode (with simulators installed)
+* CocoaPods (`brew install cocoapods` or `sudo gem install cocoapods`)
 
-### Pasos de Instalación
-1. Clonar el repositorio.
-2. Instalar dependencias de Node:
-   ```bash
-   npm install
-   ```
-3. Instalar dependencias nativas de iOS:
-   ```bash
-   cd ios
-   pod install
-   cd ..
-   ```
+### Installation Steps
+1. Clone the repository.
+2. Install Node dependencies: 
+```bash 
+npm install 
+```
+3. Install native iOS dependencies: 
+```bash 
+ios cd 
+pod install 
+cd.. 
+```
 
-### Ejecutar en Desarrollo
-1. Enciende el empaquetador de JavaScript (Metro Bundler):
-   ```bash
-   npm start
-   ```
-2. Ejecuta la aplicación en el simulador de iOS:
-   ```bash
-   npx react-native run-ios
-   ```
-   *O bien, abre `ios/SoftWater.xcworkspace` en Xcode, selecciona tu dispositivo y haz clic en **Run (Play)**.*
+### Run in Development
+1. Turn on the JavaScript bundler (Metro Bundler): 
+```bash 
+npm start 
+```
+2. Run the app in the iOS simulator: 
+```bash 
+npx react-native run-ios 
+``` 
+*Or, open `ios/SoftWater.xcworkspace` in Xcode, select your device and click **Run (Play)**.*
