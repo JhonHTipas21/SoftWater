@@ -1,4 +1,4 @@
-import { MockIrrigationRepository } from '../data/repositories/MockIrrigationRepository';
+import { MockIrrigationRepository, mockIrrigationRepository } from '../data/repositories/MockIrrigationRepository';
 
 describe('MockIrrigationRepository Tests', () => {
   let repository: MockIrrigationRepository;
@@ -6,6 +6,16 @@ describe('MockIrrigationRepository Tests', () => {
   beforeEach(() => {
     // Instanciamos un nuevo repositorio para cada test
     repository = new MockIrrigationRepository();
+  });
+
+  afterEach(() => {
+    // Limpiamos los timers del repositorio para evitar fugas en Jest
+    repository.destroy();
+  });
+
+  afterAll(() => {
+    // Detenemos también el timer del Singleton de importación del módulo
+    mockIrrigationRepository.destroy();
   });
 
   test('debe inicializar con el modo automático activo por defecto', async () => {

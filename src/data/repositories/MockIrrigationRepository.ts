@@ -207,6 +207,16 @@ export class MockIrrigationRepository implements IIrrigationRepository {
     this.humidityThreshold = Math.max(0, Math.min(100, threshold));
     return this.getIrrigationStatus();
   }
+
+  /**
+   * Detiene el ciclo de simulación activo. Útil para evitar fugas de memoria y timers colgantes en pruebas unitarias.
+   */
+  destroy() {
+    if (this.simulationInterval) {
+      clearInterval(this.simulationInterval);
+      this.simulationInterval = null;
+    }
+  }
 }
 
 // Exportación del repositorio Singleton para inyección
